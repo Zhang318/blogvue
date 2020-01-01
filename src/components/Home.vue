@@ -18,48 +18,37 @@
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <el-col :span="12" style="width: 100%;height: 100%">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            active-text-color="#00CD00" style="height: 100%">
-            <el-submenu index="1">
+        <el-menu
+          default-active="0"
+          class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
+          <template v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden">
+            <el-submenu :index="index+''" v-if="item.children.length>1" :key="index">
               <template slot="title">
-                <i class="el-icon-document"></i>
-                <span>文章管理</span>
+                <i :class="item.iconCls"></i>
+                <span>{{item.name}}</span>
               </template>
-              <el-menu-item-group>
-                <el-menu-item index="1-1">文章列表</el-menu-item>
-                <el-menu-item index="1-2">文章发布</el-menu-item>
-              </el-menu-item-group>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path">
+                {{child.name}}
+              </el-menu-item>
             </el-submenu>
-            <el-menu-item index="2">
-              <i class="el-icon-user-solid"></i>
-              <span slot="title">用户管理</span>
-            </el-menu-item>
-            <el-menu-item index="3" >
-              <i class="el-icon-s-operation"></i>
-              <span slot="title">栏目管理</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-chat-dot-round"></i>
-              <span slot="title">留言管理</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-microphone"></i>
-              <span slot="title">系统公告</span>
-            </el-menu-item>
-            <el-menu-item index="6">
-              <i class="el-icon-s-data"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
+            <template v-else>
+              <el-menu-item :index="item.children[0].path">
+                <i :class="item.children[0].iconCls"></i>
+                <span slot="title">{{item.children[0].name}}</span>
+              </el-menu-item>
+            </template>
+          </template>
+        </el-menu>
       </el-aside>
       <el-main>
-
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item v-text="this.$router.currentRoute.name"></el-breadcrumb-item>
+        </el-breadcrumb>
+        <keep-alive>
+          <router-view v-if="this.$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!this.$route.meta.keepAlive"></router-view>
       </el-main>
     </el-container>
   </el-container>
