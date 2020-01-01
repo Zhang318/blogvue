@@ -6,6 +6,8 @@ import router from './router'
 import axios from 'axios'
 import ElementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import 'font-awesome/css/font-awesome.min.css'
+import './utils/filter_utils.js'
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
