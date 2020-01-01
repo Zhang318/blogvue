@@ -15,7 +15,19 @@ export default new Router({
     {
       path:'/home',
       name:'home',
-      component:()=>import('../components/Home')
+      component:()=>import('../components/Home'),
+      children:[
+      //  文章管理
+        {
+          path:'/articleManagement',
+          name:'articleManagement',
+          // meta:{
+          //   required:true
+          // }
+          component:()=>import('../components/article/articleManagement'),
+
+        }
+      ]
     }
   ]
 })
